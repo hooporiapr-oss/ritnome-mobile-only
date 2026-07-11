@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>THE REACT | BPM Basketball</title>
-<link rel="icon" type="image/png" href="bpm-basketball.png">
+<title>THE REACT | Ritnome</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -161,7 +160,7 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <body>
 <nav class="mini-nav">
 <div class="nav-row">
-<a href="/index.html" class="back-btn" id="backBtn">← Back</a>
+<a href="/mobile.html" class="back-btn" id="backBtn">← Back</a>
 <div class="nav-title">THE REACT</div>
 <div class="nav-right">
 <div class="nav-lang">
@@ -220,7 +219,7 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 </div>
 <div class="ritnome-promo">
 <div class="pulse-dot"></div>
-<div class="ritnome-promo-text"><span id="pwBy">Powered by</span> <span>BPM BASKETBALL™</span></div>
+<div class="ritnome-promo-text"><span id="pwBy">Powered by</span> <span>RITNOME</span></div>
 </div>
 </div>
 </div>
@@ -325,7 +324,7 @@ function gcc(lv){return lv+2}
 function getIV(){return g.speed==='fast'?500:g.speed==='med'?667:1000}
 function sk(sp,k){return'lc-reaction-'+sp+'-'+k}
 function ld(sp){return{level:parseInt(localStorage.getItem(sk(sp,'level')))||1,score:parseInt(localStorage.getItem(sk(sp,'score')))||0,streak:parseInt(localStorage.getItem(sk(sp,'streak')))||0}}
-function sv(){localStorage.setItem(sk(g.speed,'level'),g.level);localStorage.setItem(sk(g.speed,'score'),g.score);localStorage.setItem(sk(g.speed,'streak'),g.streak);if(typeof syncCognitiveScore==='function')syncCognitiveScore(g.speed,g.level,g.score,g.streak,1)}
+function sv(){localStorage.setItem(sk(g.speed,'level'),g.level);localStorage.setItem(sk(g.speed,'score'),g.score);localStorage.setItem(sk(g.speed,'streak'),g.streak)}
 
 function uTr(){var s=ld('slow'),m=ld('med'),f=ld('fast');$('lS').textContent='LEVEL '+s.level;$('sS').textContent=s.score+' pts';$('lM').textContent='LEVEL '+m.level;$('sM').textContent=m.score+' pts';$('lF').textContent='LEVEL '+f.level;$('sF').textContent=f.score+' pts';$$('.bpm-tier').forEach(function(t){t.classList.remove('active')});if(g.speed==='slow')$('tierSlow').classList.add('active');else if(g.speed==='med')$('tierMed').classList.add('active');else $('tierFast').classList.add('active');$$('.level-btn').forEach(function(b){b.classList.toggle('active',parseInt(b.dataset.level)===g.level)});$('cpbV').textContent=gcc(g.level)}
 $$('.bpm-tier').forEach(function(tier){tier.onclick=function(){var sp=tier.dataset.speed;g.speed=sp;var d=ld(sp);g.level=d.level;g.score=d.score;g.streak=d.streak;g.pc=0;g.round=0;uTr()}});
@@ -397,7 +396,5 @@ $('pAct').onclick=startRound;
 initDC();uUI();startDemo();uTr();
 })();
 </script>
-<script>window.COGNITIVE_TEST_NAME='react';</script>
-<script src="/cognitive-sync.js"></script>
 </body>
 </html>
