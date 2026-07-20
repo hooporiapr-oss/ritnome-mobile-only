@@ -100,6 +100,10 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 .level-info-value{font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--orange)}
 .letsgo-btn{width:100%;padding:16px 24px;border:none;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:4px;cursor:pointer;background:linear-gradient(135deg,var(--orange),#E55A2B);color:var(--text);box-shadow:0 4px 20px rgba(255,107,53,0.3);transition:all 0.3s}
 .letsgo-btn:active{transform:scale(0.98)}
+.mode-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.mode-row .bpm-tier{margin-bottom:0}
+.hidden{display:none!important}
+#fsStrobe{position:fixed;inset:0;z-index:9998;pointer-events:none;background:var(--orange);opacity:0}
 #screen-play{background:var(--dark)}
 .play-container{display:flex;flex-direction:column;align-items:center;max-width:420px;margin:0 auto;min-height:calc(100dvh - var(--nav-height) - env(safe-area-inset-top) - 40px)}
 .play-stats{display:flex;justify-content:center;gap:16px;margin-bottom:10px;width:100%}
@@ -234,83 +238,55 @@ html,body{height:100%;overflow-x:hidden;overflow-y:auto;font-family:'Outfit',san
 <p class="trophy-subtitle" id="trophySubtitle">THE RECALL Progress</p>
 </div>
 <div class="bpm-section">
-<div class="bpm-section-title" id="selectSpeedTitle">SELECT BPM SPEED</div>
-<div class="bpm-tier active" id="tierSlow" data-speed="slow">
+<div class="bpm-section-title" id="selectModeTitle">SELECT MODE</div>
+<div class="mode-row">
+<div class="bpm-tier active" id="modeGame" data-mode="game">
+<div class="bpm-tier-header">
+<div class="bpm-tier-left">
+<span class="bpm-tier-icon">🎮</span>
+<div class="bpm-tier-info">
+<div class="bpm-tier-name">GAME</div>
+<div class="bpm-tier-bpm" id="modeGameDesc">Escalating</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bpm-tier" id="modeTraining" data-mode="training">
 <div class="bpm-tier-header">
 <div class="bpm-tier-left">
 <span class="bpm-tier-icon">🏋️</span>
 <div class="bpm-tier-info">
 <div class="bpm-tier-name">TRAINING</div>
-<div class="bpm-tier-bpm">60 BPM</div>
-</div>
-</div>
-<span class="bpm-tier-status unlocked" id="tierSlowStatus">✓ FREE</span>
-</div>
-<div class="bpm-tier-progress">
-<span class="bpm-gostars" id="starsSlow">⭐☆☆☆☆☆☆☆☆☆</span>
-<span class="bpm-level" id="levelSlowDisplay">L1</span>
-</div>
-</div>
-<div class="bpm-tier" id="tierMed" data-speed="med">
-<div class="bpm-tier-header">
-<div class="bpm-tier-left">
-<span class="bpm-tier-icon">🎯</span>
-<div class="bpm-tier-info">
-<div class="bpm-tier-name">TEMPO</div>
-<div class="bpm-tier-bpm">90 BPM</div>
-</div>
-</div>
-<span class="bpm-tier-status unlocked" id="tierMedStatus">✓ FREE</span>
-</div>
-<div class="bpm-tier-progress">
-<span class="bpm-gostars" id="starsMed">☆☆☆☆☆☆☆☆☆☆</span>
-<span class="bpm-level" id="levelMedDisplay">L1</span>
-</div>
-</div>
-<div class="bpm-tier" id="tierFast" data-speed="fast">
-<div class="bpm-tier-header">
-<div class="bpm-tier-left">
-<span class="bpm-tier-icon">⚡</span>
-<div class="bpm-tier-info">
-<div class="bpm-tier-name">ELITE</div>
-<div class="bpm-tier-bpm">120 BPM</div>
-</div>
-</div>
-<span class="bpm-tier-status unlocked" id="tierFastStatus">✓ FREE</span>
-</div>
-<div class="bpm-tier-progress">
-<span class="bpm-gostars" id="starsFast">☆☆☆☆☆☆☆☆☆☆</span>
-<span class="bpm-level" id="levelFastDisplay">L1</span>
+<div class="bpm-tier-bpm" id="modeTrainingDesc">Fixed Level</div>
 </div>
 </div>
 </div>
-<div class="level-section">
+</div>
+</div>
+</div>
+<div class="level-section hidden" id="levelSection">
 <div class="level-section-title" id="selectLevelTitle">SELECT LEVEL</div>
-<div class="level-grid" id="levelGrid">
+<div class="level-grid" id="levelGrid" style="grid-template-columns:repeat(5,1fr)">
 <button class="level-btn active" data-level="1">1</button>
 <button class="level-btn" data-level="2">2</button>
 <button class="level-btn" data-level="3">3</button>
 <button class="level-btn" data-level="4">4</button>
 <button class="level-btn" data-level="5">5</button>
-<button class="level-btn" data-level="6">6</button>
-<button class="level-btn" data-level="7">7</button>
-<button class="level-btn" data-level="8">8</button>
-<button class="level-btn" data-level="9">9</button>
-<button class="level-btn" data-level="10">10</button>
 </div>
 <div class="level-info">
 <span class="level-info-label" id="cellsLabel">Cells to remember:</span>
-<span class="level-info-value" id="cellsDisplay">5</span>
+<span class="level-info-value" id="cellsDisplay">3</span>
 </div>
 </div>
 <button class="letsgo-btn" id="letsGoBtn">LET'S GO!</button>
 </div>
 </div>
 <div class="screen" id="screen-play">
+<div id="fsStrobe"></div>
 <div class="play-container">
 <div class="play-stats">
-<div class="play-stat"><div class="play-stat-value" id="playTier">1</div><div class="play-stat-label">GoStars</div></div>
-<div class="play-stat"><div class="play-stat-value" id="playRound">0/3</div><div class="play-stat-label" id="playRoundLabel">Round</div></div>
+<div class="play-stat"><div class="play-stat-value" id="playTier">3</div><div class="play-stat-label" id="playTierLabel">Sequence</div></div>
+<div class="play-stat"><div class="play-stat-value" id="playRound">0</div><div class="play-stat-label" id="playRoundLabel">Best</div></div>
 <div class="play-stat"><div class="play-stat-value" id="playStreak">0</div><div class="play-stat-label">🔥</div></div>
 <div class="play-stat"><div class="play-stat-value" id="playScore">0</div><div class="play-stat-label" id="playScoreLabel">Score</div></div>
 </div>
@@ -359,20 +335,20 @@ var translations = {
     step2: '<strong>Memorize</strong> which cells have which numbers',
     step3: '<strong>Tap back</strong> in order: 1, 2, 3, 4, 5...',
     progressionTitle: 'PROGRESSION',
-    prog1: 'Complete <strong>3 rounds</strong> to earn a GoStar',
-    prog2: 'Earn <strong>10 GoStars</strong> to master a level',
-    prog3: 'Higher levels = <strong>more cells</strong> to remember',
-    speedsTitle: 'BPM SPEEDS',
-    speed1: '<strong>Training (60 BPM)</strong> — Slower flash, more time',
-    speed2: '<strong>Tempo (90 BPM)</strong> — Medium challenge',
-    speed3: '<strong>Elite (120 BPM)</strong> — Fast flash, quick memory!',
+    prog1: 'Sequence grows by <strong>one cell</strong> every correct round',
+    prog2: 'One mistake <strong>ends the round</strong>',
+    prog3: 'Try <strong>Training</strong> mode for a fixed, repeatable level',
+    speedsTitle: 'HOW IT WORKS',
+    speed1: '<strong>Game Mode</strong> — escalating, no limit',
+    speed2: '<strong>Training Mode</strong> — pick a fixed level, 10 rounds',
+    speed3: '<strong>100 BPM</strong> — the same steady tempo, every round',
     tipTitle: 'TIP',
-    tipText: 'Start with Training (60) to learn the patterns, then challenge yourself with faster speeds!',
+    tipText: 'Start with Game mode to get a feel for it, then use Training mode to practice one level until you\'re consistent.',
     playNow: '▶ PLAY NOW',
     poweredBy: 'Powered by',
     trophyTitle: 'YOUR TROPHY ROOM',
     trophySubtitle: 'THE RECALL Progress',
-    selectSpeed: 'SELECT BPM SPEED',
+    selectSpeed: 'SELECT MODE',
     tierFree: '✓ FREE',
     selectLevel: 'SELECT LEVEL',
     cellsLabel: 'Cells to remember:',
@@ -384,10 +360,11 @@ var translations = {
     memorize: 'MEMORIZE!',
     tapInOrder: 'TAP IN ORDER!',
     wrongOrder: 'WRONG ORDER!',
-    tierupTitle: 'GOSTAR EARNED!',
-    tierupMsg: 'You earned GoStar {tier}!',
-    tierupLevelMsg: ' Now Level {level} ({cells} cells)',
-    masterMsg: '🏆 10 GOSTARS - MASTER! 🏆'
+    gameOver: 'GAME OVER —',
+    levelLabel: 'Level',
+    progressLabel: 'Progress',
+    sequenceLabel: 'Sequence',
+    bestLabel: 'Best'
   },
   es: {
     demoBadge: 'DEMO GRATIS',
@@ -402,20 +379,20 @@ var translations = {
     step2: '<strong>Memoriza</strong> qué celdas tienen qué números',
     step3: '<strong>Toca</strong> en orden: 1, 2, 3, 4, 5...',
     progressionTitle: 'PROGRESIÓN',
-    prog1: 'Completa <strong>3 rondas</strong> para ganar un GoStar',
-    prog2: 'Gana <strong>10 GoStars</strong> para dominar un nivel',
-    prog3: 'Niveles más altos = <strong>más celdas</strong> para recordar',
-    speedsTitle: 'VELOCIDADES BPM',
-    speed1: '<strong>Entrenamiento (60 BPM)</strong> — Destello lento, más tiempo',
-    speed2: '<strong>Tempo (90 BPM)</strong> — Desafío medio',
-    speed3: '<strong>Elite (120 BPM)</strong> — Destello rápido, ¡memoria veloz!',
+    prog1: 'La secuencia crece <strong>una celda</strong> cada ronda correcta',
+    prog2: 'Un error <strong>termina la ronda</strong>',
+    prog3: 'Prueba el modo <strong>Entrenamiento</strong> para un nivel fijo y repetible',
+    speedsTitle: 'CÓMO FUNCIONA',
+    speed1: '<strong>Modo Juego</strong> — escalante, sin límite',
+    speed2: '<strong>Modo Entrenamiento</strong> — elige un nivel fijo, 10 rondas',
+    speed3: '<strong>100 BPM</strong> — el mismo ritmo constante, cada ronda',
     tipTitle: 'CONSEJO',
-    tipText: '¡Comienza con Entrenamiento (60) para aprender los patrones, luego desafíate con velocidades más rápidas!',
+    tipText: 'Empieza con el Modo Juego para sentirlo, luego usa el Modo Entrenamiento para practicar un nivel hasta ser consistente.',
     playNow: '▶ JUGAR AHORA',
     poweredBy: 'Impulsado por',
     trophyTitle: 'TU VITRINA',
     trophySubtitle: 'Progreso de THE RECALL',
-    selectSpeed: 'SELECCIONA VELOCIDAD BPM',
+    selectSpeed: 'SELECCIONA MODO',
     tierFree: '✓ GRATIS',
     selectLevel: 'SELECCIONA NIVEL',
     cellsLabel: 'Celdas a recordar:',
@@ -427,10 +404,11 @@ var translations = {
     memorize: '¡MEMORIZA!',
     tapInOrder: '¡TOCA EN ORDEN!',
     wrongOrder: '¡ORDEN INCORRECTO!',
-    tierupTitle: '¡GOSTAR GANADO!',
-    tierupMsg: '¡Ganaste GoStar {tier}!',
-    tierupLevelMsg: ' Ahora Nivel {level} ({cells} celdas)',
-    masterMsg: '🏆 10 GOSTARS - ¡MAESTRO! 🏆'
+    gameOver: 'JUEGO TERMINADO —',
+    levelLabel: 'Nivel',
+    progressLabel: 'Progreso',
+    sequenceLabel: 'Secuencia',
+    bestLabel: 'Mejor'
   }
 };
 function t(key) {
@@ -458,18 +436,11 @@ function updateUILanguage() {
   $('poweredBy').textContent = t('poweredBy');
   $('trophyTitle').textContent = t('trophyTitle');
   $('trophySubtitle').textContent = t('trophySubtitle');
-  $('selectSpeedTitle').textContent = t('selectSpeed');
-  $('tierSlowStatus').textContent = t('tierFree');
-  $('tierMedStatus').textContent = t('tierFree');
-  $('tierFastStatus').textContent = t('tierFree');
+  $('selectModeTitle').textContent = t('selectSpeed');
   $('selectLevelTitle').textContent = t('selectLevel');
   $('cellsLabel').textContent = t('cellsLabel');
   $('letsGoBtn').textContent = t('letsGo');
-  $('playRoundLabel').textContent = t('roundLabel');
-  $('playScoreLabel').textContent = t('scoreLabel');
   $('playActionBtn').textContent = t('letsGo');
-  $('tierupTitle').textContent = t('tierupTitle');
-  $('tierupBtn').textContent = t('letsGo');
   $('langEN').classList.toggle('active', currentLang === 'en');
   $('langES').classList.toggle('active', currentLang === 'es');
 }
@@ -541,51 +512,39 @@ function stopDemo(){demoEpoch++;clearDemoTimeouts()}
 var htpToggle=$('htpToggle'),htpContent=$('htpContent');
 htpToggle.onclick=function(){htpToggle.classList.toggle('open');htpContent.classList.toggle('open')};
 $('playNowBtn').onclick=function(){stopDemo();showScreen('trophy')};
-var gameState={speed:'slow',level:1,tier:1,roundsCompleted:0,score:0,streak:0};
-var LEVEL_CELLS={1:5,2:6,3:7,4:8,5:9,6:10,7:11,8:12,9:13,10:14};
-function getSpeedKey(speed,key){return'lc-match-'+speed+'-'+key}
-function loadSpeedState(speed){return{level:parseInt(localStorage.getItem(getSpeedKey(speed,'level')))||1,tier:parseInt(localStorage.getItem(getSpeedKey(speed,'tier')))||1,roundsCompleted:parseInt(localStorage.getItem(getSpeedKey(speed,'rounds')))||0,score:parseInt(localStorage.getItem(getSpeedKey(speed,'score')))||0,streak:parseInt(localStorage.getItem(getSpeedKey(speed,'streak')))||0}}
-function saveSpeedState(){localStorage.setItem(getSpeedKey(gameState.speed,'level'),gameState.level);localStorage.setItem(getSpeedKey(gameState.speed,'tier'),gameState.tier);localStorage.setItem(getSpeedKey(gameState.speed,'rounds'),gameState.roundsCompleted);localStorage.setItem(getSpeedKey(gameState.speed,'score'),gameState.score);localStorage.setItem(getSpeedKey(gameState.speed,'streak'),gameState.streak)}
-function renderStars(tier){var s='';for(var i=0;i<10;i++)s+=i<tier?'⭐':'☆';return s}
-function updateTrophyUI(){
-    var slowData=loadSpeedState('slow'),medData=loadSpeedState('med'),fastData=loadSpeedState('fast');
-    $('starsSlow').textContent=renderStars(slowData.tier);
-    $('starsMed').textContent=renderStars(medData.tier);
-    $('starsFast').textContent=renderStars(fastData.tier);
-    $('levelSlowDisplay').textContent='L'+slowData.level;
-    $('levelMedDisplay').textContent='L'+medData.level;
-    $('levelFastDisplay').textContent='L'+fastData.level;
-    var tiers=$$('.bpm-tier');
-    tiers.forEach(function(t){t.classList.remove('active')});
-    if(gameState.speed==='slow')$('tierSlow').classList.add('active');
-    else if(gameState.speed==='med')$('tierMed').classList.add('active');
-    else $('tierFast').classList.add('active');
-    $$('.level-btn').forEach(function(b){b.classList.toggle('active',parseInt(b.dataset.level)===gameState.level)});
-    $('cellsDisplay').textContent=LEVEL_CELLS[gameState.level]||5;
-}
-$$('.bpm-tier').forEach(function(tier){
-    tier.onclick=function(){
-        var spd=tier.dataset.speed;
-        gameState.speed=spd;
-        var data=loadSpeedState(spd);
-        gameState.level=data.level;gameState.tier=data.tier;gameState.roundsCompleted=data.roundsCompleted;gameState.score=data.score;gameState.streak=data.streak;
-        updateTrophyUI();
-    }
-});
+
+var BPM=100;
+var STARTING_CELLS=3;
+var LEVEL_CELLS={1:3,2:4,3:5,4:6,5:7};
+var TRAINING_ROUNDS=10;
+var gameMode='game';
+var trainingLevel=1;
+function getInitialCellCount(){return gameMode==='training'?LEVEL_CELLS[trainingLevel]:STARTING_CELLS}
+
+var gameState={sc:0,cellCount:STARTING_CELLS,best:0,streak:0,roundsDone:0};
+
+$('modeGame').onclick=function(){
+    gameMode='game';
+    $('modeGame').classList.add('active');$('modeTraining').classList.remove('active');
+    $('levelSection').classList.add('hidden');
+};
+$('modeTraining').onclick=function(){
+    gameMode='training';
+    $('modeTraining').classList.add('active');$('modeGame').classList.remove('active');
+    $('levelSection').classList.remove('hidden');
+};
 $$('.level-btn').forEach(function(btn){
     btn.onclick=function(){
-        gameState.level=parseInt(btn.dataset.level);
-        gameState.tier=1;gameState.roundsCompleted=0;
-        saveSpeedState();
-        updateTrophyUI();
-    }
+        trainingLevel=parseInt(btn.dataset.level);
+        $$('.level-btn').forEach(function(b){b.classList.remove('active')});
+        btn.classList.add('active');
+        $('cellsDisplay').textContent=LEVEL_CELLS[trainingLevel];
+    };
 });
 $('letsGoBtn').onclick=function(){showScreen('play');initGame()};
 var playCourt=$('playCourt');
 var playCells=[];
 var playTimeouts=[];
-var SPEED_CFG={slow:{display:2500},med:{display:2000},fast:{display:1500}};
-var ROUNDS_PER_TIER=3,TOTAL_TIERS=10;
 var pattern=[],playerIndex=0,isPlaying=false,canTap=false;
 var LAUGH_EMOJIS=['😂','😆','🤣','😄','😁','🥳','😊','🏀'];
 var PARTY_EMOJIS=['🥳','🎉','😂','🤣','✨','💫','🏀','🏆'];
@@ -602,33 +561,57 @@ function initPlayCourt(){
         playCourt.appendChild(c);playCells.push(c);
     }
 }
-function renderPlayTierDots(){
-    var c=$('playTierDots');c.innerHTML='';
-    for(var i=1;i<=TOTAL_TIERS;i++){var d=document.createElement('div');d.className='play-tier-dot'+(i<gameState.tier?' completed':'')+(i===gameState.tier?' current':'');c.appendChild(d)}
+var strobeInterval=null;
+function startFullStrobe(){
+    stopFullStrobe();
+    var beatMs=60000/BPM;
+    var el=$('fsStrobe');
+    strobeInterval=setInterval(function(){
+        el.style.transition='none';el.style.opacity='.35';
+        playFlash();
+        setTimeout(function(){el.style.transition='opacity .15s';el.style.opacity='0'},Math.min(120,beatMs*.3));
+    },beatMs);
 }
+function stopFullStrobe(){
+    if(strobeInterval){clearInterval(strobeInterval);strobeInterval=null}
+    var el=$('fsStrobe');if(el){el.style.transition='none';el.style.opacity='0'}
+}
+function getBeatMs(){return Math.round((60000/BPM)*10)}
+function getShowMs(){return Math.round(60000/BPM)+((gameState.cellCount-1)*120)}
+function renderPlayTierDots(){}
 function updatePlayUI(){
-    $('playTier').textContent=gameState.tier;
-    $('playRound').textContent=gameState.roundsCompleted+'/'+ROUNDS_PER_TIER;
+    $('playScore').textContent=gameState.sc;
+    $('playTotal').textContent=gameState.sc;
     $('playStreak').textContent=gameState.streak;
-    $('playScore').textContent=gameState.score;
-    $('playTotal').textContent=gameState.score;
-    var spName=gameState.speed==='slow'?'TRAINING':gameState.speed==='med'?'TEMPO':'ELITE';
-    $('playBadge').textContent='L'+gameState.level+' '+spName;
-    $('playCells').textContent='CELLS: '+(LEVEL_CELLS[gameState.level]||5);
-    renderPlayTierDots();
+    if(gameMode==='training'){
+        $('playTierLabel').textContent=t('levelLabel');
+        $('playTier').textContent=gameState.cellCount+' (L'+trainingLevel+')';
+        $('playRoundLabel').textContent=t('progressLabel');
+        $('playRound').textContent=gameState.roundsDone+'/'+TRAINING_ROUNDS;
+    }else{
+        $('playTierLabel').textContent=t('sequenceLabel');
+        $('playTier').textContent=gameState.cellCount;
+        $('playRoundLabel').textContent=t('bestLabel');
+        $('playRound').textContent=gameState.best;
+    }
+    var badge=gameMode==='training'?'L'+trainingLevel+' TRAINING':'GAME';
+    $('playBadge').textContent=badge;
+    $('playCells').textContent='CELLS: '+gameState.cellCount;
 }
 function initGame(){
     initPlayCourt();
-    var data=loadSpeedState(gameState.speed);
-    gameState.level=data.level;gameState.tier=data.tier;gameState.roundsCompleted=data.roundsCompleted;gameState.score=data.score;gameState.streak=data.streak;
+    gameState={sc:0,cellCount:getInitialCellCount(),best:0,streak:0,roundsDone:0};
     isPlaying=false;canTap=false;
     updatePlayUI();
     $('playMessage').textContent=t('tapLetsGo');
+    $('playMessage').className='play-message-text';
+    $('playActionBtn').textContent=t('letsGo');
+    $('playActionBtn').onclick=startRound;
     $('playActionBtn').disabled=false;
     hideTimer();
 }
 function generatePattern(){
-    var count=LEVEL_CELLS[gameState.level]||5;
+    var count=gameState.cellCount;
     var arr=[];for(var i=0;i<25;i++)arr.push(i);
     for(var j=arr.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var tmp=arr[j];arr[j]=arr[k];arr[k]=tmp}
     return arr.slice(0,count);
@@ -657,8 +640,8 @@ function stopTimerBar(){if(timerRAF)cancelAnimationFrame(timerRAF);timerRAF=null
 function hideTimer(){stopTimerBar();$('timerWrap').classList.remove('active')}
 function startRound(){
     if(isPlaying)return;
-    clearPlayTimeouts();
-    isPlaying=true;canTap=false;playerIndex=0;
+    clearPlayTimeouts();stopFullStrobe();
+    isPlaying=true;canTap=false;playerIndex=0;firstTapDone=false;
     $('playActionBtn').disabled=true;
     playCells.forEach(function(c){c.className='play-cell';c.querySelector('.cell-num').textContent=''});
     pattern=generatePattern();
@@ -668,19 +651,19 @@ function startRound(){
         if(!isPlaying)return;
         pattern.forEach(function(idx,num){playCells[idx].classList.add('lit');playCells[idx].querySelector('.cell-num').textContent=num+1});
         playFlash();
-        var displayTime=SPEED_CFG[gameState.speed]?SPEED_CFG[gameState.speed].display:2500;
+        var displayTime=getShowMs();
         setPlayTimeout(function(){
             if(!isPlaying)return;
             playCells.forEach(function(c){c.classList.remove('lit')});
             $('playMessage').textContent=t('tapInOrder');
             $('playMessage').className='play-message-text go';
             canTap=true;
-            var perCell=gameState.speed==='fast'?850:gameState.speed==='med'?1100:1400;
-            var tapDuration=perCell*pattern.length;
+            startFullStrobe();
+            var tapDuration=getBeatMs();
             startTimerBar(tapDuration);
             setPlayTimeout(function(){
                 if(!canTap||!isPlaying)return;
-                canTap=false;hideTimer();playError();
+                canTap=false;stopFullStrobe();hideTimer();playError();
                 $('playMessage').textContent=t('wrongOrder');
                 $('playMessage').className='play-message-text error';
                 setPlayTimeout(function(){roundComplete(false)},1200);
@@ -688,8 +671,10 @@ function startRound(){
         },displayTime);
     },400);
 }
+var firstTapDone=false;
 function handleTap(idx){
     if(!canTap||!isPlaying)return;
+    if(!firstTapDone){firstTapDone=true;stopFullStrobe()}
     var cell=playCells[idx];
     cell.classList.add('player-tap');playTap();
     setPlayTimeout(function(){cell.classList.remove('player-tap')},150);
@@ -698,9 +683,9 @@ function handleTap(idx){
         cell.querySelector('.cell-num').textContent=playerIndex+1;
         playerIndex++;
         if(playerIndex>2)laughCelebration('small');
-        if(playerIndex>=pattern.length){canTap=false;hideTimer();roundComplete(true)}
+        if(playerIndex>=pattern.length){canTap=false;stopFullStrobe();hideTimer();roundComplete(true)}
     }else{
-        cell.classList.add('wrong');playError();canTap=false;hideTimer();
+        cell.classList.add('wrong');playError();canTap=false;stopFullStrobe();hideTimer();
         setPlayTimeout(function(){pattern.forEach(function(i,num){playCells[i].classList.add('lit','show-num');playCells[i].querySelector('.cell-num').textContent=num+1})},400);
         setPlayTimeout(function(){roundComplete(false)},2000);
     }
@@ -708,44 +693,83 @@ function handleTap(idx){
 function roundComplete(success){
     isPlaying=false;canTap=false;
     if(success){
-        var pts=pattern.length*20*(gameState.speed==='fast'?3:gameState.speed==='med'?2:1);
-        gameState.score+=pts;gameState.streak++;gameState.roundsCompleted++;
-        saveSpeedState();
+        gameState.sc+=gameState.cellCount*10;
+        gameState.streak++;
         var intensity=gameState.streak>=5?'party':gameState.streak>=3?'big':'medium';
         var msgs=gameState.streak>=5?['🏆 LEGEND!','🏆 WOW!']:gameState.streak>=3?['🔥 FIRE!','🤣 AMAZING!']:['😄 NICE!','😊 GREAT!'];
         playSuccess();laughCelebration(intensity);showCoach(msgs[Math.floor(Math.random()*msgs.length)]);
-        updatePlayUI();
-        if(gameState.roundsCompleted>=ROUNDS_PER_TIER){setPlayTimeout(function(){gameState.tier<TOTAL_TIERS?tierUp():maxTier()},800)}
-        else{setPlayTimeout(resetRound,1000)}
+
+        if(gameMode==='training'){
+            gameState.roundsDone++;
+            updatePlayUI();
+            if(gameState.roundsDone>=TRAINING_ROUNDS){
+                setPlayTimeout(showTrainingComplete,900);
+            }else{
+                $('playMessage').textContent='✅ '+gameState.roundsDone+'/'+TRAINING_ROUNDS;
+                $('playMessage').className='play-message-text';
+                setPlayTimeout(autoNextRound,1000);
+            }
+        }else{
+            if(gameState.cellCount>gameState.best)gameState.best=gameState.cellCount;
+            gameState.cellCount++;
+            updatePlayUI();
+            $('playMessage').textContent=t('memorize');
+            $('playMessage').className='play-message-text';
+            setPlayTimeout(autoNextRound,1000);
+        }
     }else{
-        gameState.streak=0;saveSpeedState();updatePlayUI();
+        gameState.streak=0;updatePlayUI();
         $('playMessage').textContent=t('wrongOrder');
         $('playMessage').className='play-message-text error';
-        setPlayTimeout(resetRound,2000);
+        setPlayTimeout(showFinalScore,1800);
     }
 }
-function tierUp(){
-    gameState.tier++;gameState.roundsCompleted=0;
-    var oldLevel=gameState.level;
-    if(gameState.level<10)gameState.level++;
-    saveSpeedState();laughCelebration('party');
-    var msg=t('tierupMsg').replace('{tier}',gameState.tier);
-    if(gameState.level>oldLevel){msg+=t('tierupLevelMsg').replace('{level}',gameState.level).replace('{cells}',LEVEL_CELLS[gameState.level]||5)}
-    $('tierupMessage').innerHTML=msg;
-    $('tierupOverlay').classList.add('show');
-    updatePlayUI();
-}
-function maxTier(){
-    gameState.roundsCompleted=0;if(gameState.level<10)gameState.level=10;saveSpeedState();
-    $('tierupMessage').innerHTML=t('masterMsg');
-    document.querySelector('#tierupOverlay .overlay-emoji').textContent='👑';
-    $('tierupOverlay').classList.add('show');updatePlayUI();
-}
-$('tierupBtn').onclick=function(){$('tierupOverlay').classList.remove('show');document.querySelector('#tierupOverlay .overlay-emoji').textContent='⭐';resetRound()};
-function resetRound(){
-    clearPlayTimeouts();isPlaying=false;canTap=false;playerIndex=0;pattern=[];hideTimer();
+function showFinalScore(){
+    clearPlayTimeouts();isPlaying=false;canTap=false;stopFullStrobe();hideTimer();
     playCells.forEach(function(c){c.className='play-cell';c.querySelector('.cell-num').textContent=''});
-    $('playMessage').textContent=(gameState.roundsCompleted+1)+'/'+ROUNDS_PER_TIER+' - '+t('tapLetsGo');
+    updatePlayUI();
+    if(gameMode==='training'){
+        $('playMessage').textContent=gameState.roundsDone+'/'+TRAINING_ROUNDS+' — L'+trainingLevel+' — '+gameState.sc;
+    }else{
+        $('playMessage').textContent=t('gameOver')+' '+gameState.sc+' (BEST '+gameState.best+')';
+    }
+    $('playMessage').className='play-message-text error';
+    $('playActionBtn').textContent=t('letsGo');
+    $('playActionBtn').onclick=restartGame;
+    $('playActionBtn').disabled=false;
+}
+function showTrainingComplete(){
+    clearPlayTimeouts();isPlaying=false;canTap=false;stopFullStrobe();hideTimer();
+    playCells.forEach(function(c){c.className='play-cell';c.querySelector('.cell-num').textContent=''});
+    updatePlayUI();
+    laughCelebration('party');
+    $('playMessage').textContent='🏆 '+TRAINING_ROUNDS+'/'+TRAINING_ROUNDS+' — L'+trainingLevel+' COMPLETE! — '+gameState.sc;
+    $('playMessage').className='play-message-text';
+    $('playActionBtn').textContent=t('letsGo');
+    $('playActionBtn').onclick=restartGame;
+    $('playActionBtn').disabled=false;
+}
+function restartGame(){
+    clearPlayTimeouts();stopFullStrobe();isPlaying=false;canTap=false;
+    gameState={sc:0,cellCount:getInitialCellCount(),best:0,streak:0,roundsDone:0};
+    updatePlayUI();hideTimer();
+    playCells.forEach(function(c){c.className='play-cell';c.querySelector('.cell-num').textContent=''});
+    $('playMessage').textContent=t('tapLetsGo');
+    $('playMessage').className='play-message-text';
+    $('playActionBtn').textContent=t('letsGo');
+    $('playActionBtn').onclick=startRound;
+    $('playActionBtn').disabled=false;
+}
+function autoNextRound(){
+    if(isPlaying)return;
+    playCells.forEach(function(c){c.className='play-cell';c.querySelector('.cell-num').textContent=''});
+    $('playActionBtn').disabled=true;
+    startRound();
+}
+function resetRound(){
+    clearPlayTimeouts();isPlaying=false;canTap=false;playerIndex=0;pattern=[];hideTimer();stopFullStrobe();
+    playCells.forEach(function(c){c.className='play-cell';c.querySelector('.cell-num').textContent=''});
+    $('playMessage').textContent=t('tapLetsGo');
     $('playMessage').className='play-message-text';
     $('playActionBtn').disabled=false;
     updatePlayUI();
@@ -754,7 +778,6 @@ $('playActionBtn').onclick=startRound;
 initDemoCourt();
 updateUILanguage();
 startDemo();
-updateTrophyUI();
 })();
 </script>
 </body>
